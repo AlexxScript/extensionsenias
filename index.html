@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Detector de Señas</title>
+  <style>
+    video {
+      width: 224px;
+      height: 224px;
+      border-radius: 12px;
+    }
+
+    #label-container {
+      margin-top: 10px;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="start-button">Iniciar cámara</button>
+  <div id="video-container"></div>
+  <div id="label-container">Esperando...</div>
+
+  <script type="module" src="/src/popup.js"></script>
+</body>
+
+</html>
