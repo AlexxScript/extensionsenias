@@ -4,7 +4,8 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        popup: 'index.html'
+        popup: 'index.html',
+        content: 'src/content.js'
       },
       output: {
         entryFileNames: 'assets/[name].js',

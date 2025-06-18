@@ -2,14 +2,30 @@
   "name": "Señas Detector",
   "version": "1.0",
   "manifest_version": 3,
-  "host_permissions": ["<all_urls>"],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "action": {
     "default_popup": "index.html"
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://www.google.com/search*"
+      ],
+      "js": [
+        "assets/content.js"
+      ]
+    }
+  ],
   "web_accessible_resources": [
     {
-      "resources": ["model/*"],
-      "matches": ["<all_urls>"]
+      "resources": [
+        "model/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ]
 }
