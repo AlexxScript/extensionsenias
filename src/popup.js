@@ -3,7 +3,7 @@ import * as tf from '@tensorflow/tfjs';
 let model;
 const labelContainer = document.getElementById("label-container");
 const videoContainer = document.getElementById("video-container");
-const classNames = ["👉","👈","🤚", "👊"];
+const classNames = ["👉","👈","🤚", "👍","👊"];
 
 document.getElementById("start-button").addEventListener("click", init);
 
@@ -59,7 +59,7 @@ async function predictLoop(video) {
           const maxIndex = data.indexOf(Math.max(...data));
           const gesture = classNames[maxIndex];
 
-          if (data[maxIndex] > 0.9 && gesture !== prevGesture) {
+          if (data[maxIndex] > 0.6 && gesture !== prevGesture) {
             prevGesture = gesture;
 
             chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {

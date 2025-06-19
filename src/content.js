@@ -27,11 +27,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     currentImageIndex = (currentImageIndex - 1 + thumbnails.length) % thumbnails.length;
   }
 
-  // GESTO: REINICIAR 🤚
-  // if (gesture === "🤚") {
-  //   currentImageIndex = 0;
-  // }
-
   const selected = thumbnails[currentImageIndex];
 
   // Aplica estilo de selección
@@ -39,12 +34,24 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   selected.style.border = "5px solid red";
   selected.scrollIntoView({ behavior: "smooth", block: "center" });
 
-  // GESTO: SELECCIONAR 👊
-  if (gesture === "👊") {
-    // const container = selected.closest('a, div');
-    // if (container) container.click();
-    // else selected.click();
-    console.log("✅ Imagen clickeada:", selected.src);
+  if (gesture === "🤚") {
+    const container = selected.closest('a, div');
+    if (container) container.click();
+    else selected.click();
+  }
+
+  if (gesture === "👍") {
+    const imageURL = selected.src;
+
+    // Crear un enlace temporal
+    const link = document.createElement("a");
+    link.href = imageURL;
+    link.download = "imagen_seleccionada.jpg"; // Puedes generar nombre dinámico si quieres
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    console.log("✅ Imagen descargada:", imageURL);
   } else {
     console.log("✅ Imagen resaltada:", selected.src);
   }
