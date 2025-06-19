@@ -3,7 +3,7 @@ import * as tf from '@tensorflow/tfjs';
 let model;
 const labelContainer = document.getElementById("label-container");
 const videoContainer = document.getElementById("video-container");
-const classNames = ["✋", "👊"];
+const classNames = ["👉","👈","🤚", "👊"];
 
 document.getElementById("start-button").addEventListener("click", init);
 
@@ -40,37 +40,9 @@ async function loadModel() {
   }
 }
 
-// async function predictLoop(video) {
-//   const loop = async () => {
-//     tf.tidy(() => {
-//       const tensor = tf.browser.fromPixels(video)
-//         .resizeNearestNeighbor([224, 224])
-//         .toFloat()
-//         .div(255)
-//         .expandDims(0);
-
-//       const prediction = model.predict(tensor);
-//       prediction.data().then(data => {
-//         console.log(data)
-
-//         const maxIndex = data.indexOf(Math.max(...data));
-//         if (data[maxIndex] > 0.9) {
-//           const gesture = classNames[maxIndex];
-
-//           chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-//             chrome.tabs.sendMessage(tabs[0].id, { gesture });
-//           });
-//         }
-//         labelContainer.innerText = `${classNames[maxIndex]} (${(data[maxIndex] * 100).toFixed(1)}%)`;
-//       });
-//     });
-
-//     requestAnimationFrame(loop);
-//   };
-//   loop();
-// }
 async function predictLoop(video) {
   let isCooldown = false;
+  let prevGesture = null;
 
   const loop = async () => {
     if (!isCooldown) {
@@ -85,27 +57,29 @@ async function predictLoop(video) {
 
         prediction.data().then(data => {
           const maxIndex = data.indexOf(Math.max(...data));
-          if (data[maxIndex] > 0.9) {
-            const gesture = classNames[maxIndex];
+          const gesture = classNames[maxIndex];
+
+          if (data[maxIndex] > 0.9 && gesture !== prevGesture) {
+            prevGesture = gesture;
 
             chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
               chrome.tabs.sendMessage(tabs[0].id, { gesture });
             });
 
-            // ✅ Entrar en cooldown por 3 segundos
             isCooldown = true;
             setTimeout(() => {
               isCooldown = false;
-            }, 4000); // 3000 ms = 3 segundos
+              prevGesture = null; // reset para volver a detectar
+            }, 1000);
           }
 
-          labelContainer.innerText = `${classNames[maxIndex]} (${(data[maxIndex] * 100).toFixed(1)}%)`;
+          labelContainer.innerText = `${gesture} (${(data[maxIndex] * 100).toFixed(1)}%)`;
         });
       });
     }
 
     requestAnimationFrame(loop);
   };
-
   loop();
 }
+

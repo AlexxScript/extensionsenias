@@ -1,34 +1,51 @@
 let currentImageIndex = 0;
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.gesture === "👊") {
-    const thumbnails = Array.from(document.querySelectorAll('img[src^="data:image/jpeg"]'))
-      .filter(img => img.width > 100 && img.height > 100);
+  const gesture = request.gesture;
 
-    if (thumbnails.length > 0) {
-      // Asegurar que no se salga del rango
-      if (currentImageIndex >= thumbnails.length) {
-        currentImageIndex = 0; // Reinicia si llega al final
-      }
+  const thumbnails = Array.from(document.querySelectorAll('img[src^="data:image/jpeg"]'))
+    .filter(img => img.width > 100 && img.height > 100);
 
-      // Limpiar selección anterior
-      document.querySelectorAll("img.imagen-seleccionada").forEach(img => {
-        img.classList.remove("imagen-seleccionada");
-        img.style.border = "";
-      });
+  if (thumbnails.length === 0) {
+    console.log("❌ No se encontraron imágenes compatibles.");
+    return;
+  }
 
-      const selected = thumbnails[currentImageIndex];
+  // Quita resaltado anterior
+  document.querySelectorAll("img.imagen-seleccionada").forEach(img => {
+    img.classList.remove("imagen-seleccionada");
+    img.style.border = "";
+  });
 
-      selected.classList.add("imagen-seleccionada");
-      selected.style.border = "5px solid red";
-      selected.scrollIntoView({ behavior: "smooth", block: "center" });
+  // GESTO: AVANZAR 👉
+  if (gesture === "👉") {
+    currentImageIndex = (currentImageIndex + 1) % thumbnails.length;
+  }
 
-      // Avanza al siguiente índice para la próxima vez
-      currentImageIndex++;
+  // GESTO: RETROCEDER 👈
+  if (gesture === "👈") {
+    currentImageIndex = (currentImageIndex - 1 + thumbnails.length) % thumbnails.length;
+  }
 
-      console.log("✅ Imagen seleccionada:", selected.src);
-    } else {
-      console.log("❌ No se encontraron imágenes compatibles.");
-    }
+  // GESTO: REINICIAR 🤚
+  // if (gesture === "🤚") {
+  //   currentImageIndex = 0;
+  // }
+
+  const selected = thumbnails[currentImageIndex];
+
+  // Aplica estilo de selección
+  selected.classList.add("imagen-seleccionada");
+  selected.style.border = "5px solid red";
+  selected.scrollIntoView({ behavior: "smooth", block: "center" });
+
+  // GESTO: SELECCIONAR 👊
+  if (gesture === "👊") {
+    // const container = selected.closest('a, div');
+    // if (container) container.click();
+    // else selected.click();
+    console.log("✅ Imagen clickeada:", selected.src);
+  } else {
+    console.log("✅ Imagen resaltada:", selected.src);
   }
 });
