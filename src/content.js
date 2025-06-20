@@ -18,7 +18,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   });
 
   // GESTO: AVANZAR 👉
-  if (gesture === "👉") {
+  if (gesture === "🫱") {
     currentImageIndex = (currentImageIndex + 1) % thumbnails.length;
   }
 
@@ -41,15 +41,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
   if (gesture === "👍") {
-    const imageURL = selected.src;
+    // const imageURL = selected.src;
 
-    // Crear un enlace temporal
-    const link = document.createElement("a");
-    link.href = imageURL;
-    link.download = "imagen_seleccionada.jpg"; // Puedes generar nombre dinámico si quieres
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // // Crear un enlace temporal
+    // const link = document.createElement("a");
+    // link.href = imageURL;
+    // link.download = "imagen_seleccionada.jpg"; 
+    // document.body.appendChild(link);
+    // link.click();
+    // document.body.removeChild(link);
 
     console.log("✅ Imagen descargada:", imageURL);
   } else {

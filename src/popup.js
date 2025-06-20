@@ -3,7 +3,7 @@ import * as tf from '@tensorflow/tfjs';
 let model;
 const labelContainer = document.getElementById("label-container");
 const videoContainer = document.getElementById("video-container");
-const classNames = ["👉","👈","🤚", "👍","👊"];
+const classNames = ["🫱","👈","🤚", "👍","👊"];
 
 document.getElementById("start-button").addEventListener("click", init);
 
