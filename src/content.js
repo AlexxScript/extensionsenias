@@ -11,25 +11,21 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return;
   }
 
-  // Quita resaltado anterior
   document.querySelectorAll("img.imagen-seleccionada").forEach(img => {
     img.classList.remove("imagen-seleccionada");
     img.style.border = "";
   });
 
-  // GESTO: AVANZAR 👉
-  if (gesture === "🫱") {
+  if (gesture === "✋") {
     currentImageIndex = (currentImageIndex + 1) % thumbnails.length;
   }
 
-  // GESTO: RETROCEDER 👈
   if (gesture === "👈") {
     currentImageIndex = (currentImageIndex - 1 + thumbnails.length) % thumbnails.length;
   }
 
   const selected = thumbnails[currentImageIndex];
 
-  // Aplica estilo de selección
   selected.classList.add("imagen-seleccionada");
   selected.style.border = "5px solid red";
   selected.scrollIntoView({ behavior: "smooth", block: "center" });

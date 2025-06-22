@@ -3,7 +3,7 @@ import * as tf from '@tensorflow/tfjs';
 let model;
 const labelContainer = document.getElementById("label-container");
 const videoContainer = document.getElementById("video-container");
-const classNames = ["🫱","👈","🤚", "👍","👊"];
+const classNames = ["👈","✋", "👍","👊","vacio","✋😺🤚"];
 
 document.getElementById("start-button").addEventListener("click", init);
 
@@ -69,7 +69,7 @@ async function predictLoop(video) {
             isCooldown = true;
             setTimeout(() => {
               isCooldown = false;
-              prevGesture = null; // reset para volver a detectar
+              prevGesture = null;
             }, 1000);
           }
 
