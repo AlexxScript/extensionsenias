@@ -18,9 +18,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   if (gesture === "✋") {
     currentImageIndex = (currentImageIndex + 1) % thumbnails.length;
+
   }
 
-  if (gesture === "👈") {
+  if (gesture === "👈" || gesture === "👉") {
     currentImageIndex = (currentImageIndex - 1 + thumbnails.length) % thumbnails.length;
   }
 
@@ -30,25 +31,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   selected.style.border = "5px solid red";
   selected.scrollIntoView({ behavior: "smooth", block: "center" });
 
-  if (gesture === "🤚") {
-    const container = selected.closest('a, div');
-    if (container) container.click();
-    else selected.click();
-  }
+  selected.click();
 
   if (gesture === "👍") {
-    // const imageURL = selected.src;
-
-    // // Crear un enlace temporal
-    // const link = document.createElement("a");
-    // link.href = imageURL;
-    // link.download = "imagen_seleccionada.jpg"; 
-    // document.body.appendChild(link);
-    // link.click();
-    // document.body.removeChild(link);
-
+    const imageURL = selected.src;
+    const link = document.createElement("a");
+    link.href = imageURL;
+    link.download = "imagen_seleccionada.jpg"; 
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     console.log("✅ Imagen descargada:", imageURL);
   } else {
     console.log("✅ Imagen resaltada:", selected.src);
   }
+
+
 });
