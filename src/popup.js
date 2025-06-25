@@ -3,7 +3,7 @@ import * as tf from '@tensorflow/tfjs';
 let model;
 const labelContainer = document.getElementById("label-container");
 const videoContainer = document.getElementById("video-container");
-const classNames = ["👉","👈", "✋", "👍", "👊", "vacio", "✋😺🤚"];
+const classNames = ["✋","👊","👉","👈","👍", "vacio", "✋😺🤚"];
 
 document.getElementById("start-button").addEventListener("click", init);
 
@@ -73,10 +73,6 @@ async function predictLoop(video) {
             }, 1000);
           }
 
-          if (gesture === "👊") {
-            cerrarExtension();
-          }
-
           labelContainer.innerText = `${gesture} (${(data[maxIndex] * 100).toFixed(1)}%)`;
         });
       });
@@ -85,18 +81,4 @@ async function predictLoop(video) {
     requestAnimationFrame(loop);
   };
   loop();
-}
-
-
-function cerrarExtension() {
-  const video = document.querySelector("video");
-  if (video && video.srcObject) {
-    video.srcObject.getTracks().forEach(track => track.stop());
-  }
-
-  document.body.innerHTML = `
-    <div style="padding: 20px; text-align: center;">
-      👋 Extensión cerrada
-    </div>
-  `;
 }
